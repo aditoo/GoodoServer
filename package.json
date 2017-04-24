@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/aditoo/GoodoServer/issues"
   },
-  "homepage": "https://github.com/aditoo/GoodoServer#readme"
+  "homepage": "https://github.com/aditoo/GoodoServer#readme",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
 }
