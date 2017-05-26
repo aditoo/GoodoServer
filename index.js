@@ -36,13 +36,19 @@ app.get('/volunteers' , function(req ,res){
       return;
     }
     const collection = db.collection('volunteers');
-    collection.find().toArray((e, results) =>{
+    //const start = new Date("2017-05-23T19:12:30.414Z");
+    collection.find({date: {$gt: "2017-05-22T19:12:30.414Z", $lt: "2017-05-26T19:12:30.414Z"}}).toArray((e, results) =>{
       db.close();
+      if(e){
+        console.error(e);
+        return;
+      }
       console.log(`Found ${results.legth} records that match the query.`);
       results.forEach(doc => console.log(`Doc title found - ${doc.title}`));
+      res.json(results).end();
     });
   })
-  res.json({response : "OK"}).end();
+
 });
 
 // create a new volunteer
@@ -51,7 +57,6 @@ app.post('/volunteers', function(req, res){
   const minNumber = parseInt(req.query.minNumber);
   const maxNumber = parseInt(req.query.maxNumber);
   const address = req.query.address;
-  const time = req.query.time;
   const date = req.query.date;
   const duration = req.query.duration;
   const description = req.query.description;
@@ -61,7 +66,6 @@ app.post('/volunteers', function(req, res){
     "minNumber" : minNumber,
     "maxNumber" : maxNumber,
     "address": address,
-    "time" : time,
     "date" : date,
     "duration" : duration,
     "description" : description,
