@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/aditoo/GoodoServer#readme",
   "dependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.2",
+    "json": "^9.0.6",
+    "mongodb": "^2.2.27",
+    "mongoose": "^4.10.2",
+    "pug": "^2.0.0-rc.1"
   }
 }
