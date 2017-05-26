@@ -42,7 +42,7 @@ app.get('/volunteers' , function(req ,res){
       results.forEach(doc => console.log(`Doc title found - ${doc.title}`));
     });
   })
-  res.send('GET volunteers was sent ');
+  res.json({response : "OK"}).end();
 });
 
 // create a new volunteer
