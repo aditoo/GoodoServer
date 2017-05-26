@@ -37,7 +37,7 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     //const start = new Date("2017-05-23T19:12:30.414Z");
-    collection.find({date: {$gt: "2017-05-22T19:12:30.414Z", $lt: "2017-05-26T19:12:30.414Z"}}).toArray((e, results) =>{
+    collection.find({date: {$gt: "2017-05-18T19:12:30.414Z", $lt: "2017-05-26T19:12:30.414Z"}}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
@@ -58,18 +58,22 @@ app.post('/volunteers', function(req, res){
   const title = req.query.title;
   const minNumber = parseInt(req.query.minNumber);
   const maxNumber = parseInt(req.query.maxNumber);
+  const currentNum = parseInt(req.query.currentNum);
   const address = req.query.address;
   const date = req.query.date;
   const duration = req.query.duration;
   const description = req.query.description;
+  const imgName = req.query.imgName;
   const lastupdate = new Date();
   const toInsert = {
     "title": title,
     "minNumber" : minNumber,
     "maxNumber" : maxNumber,
+    "currentNum" : currentNum,
     "address": address,
     "date" : date,
     "duration" : duration,
+    "imgName" : imgName,
     "description" : description,
     "lastupdate" : lastupdate
   };
