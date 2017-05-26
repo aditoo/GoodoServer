@@ -45,7 +45,9 @@ app.get('/volunteers' , function(req ,res){
       }
       console.log(`Found ${results.legth} records that match the query.`);
       results.forEach(doc => console.log(`Doc title found - ${doc.title}`));
-      res.json(results).end();
+      const jsonStr = '{ "vol" : ' + JSON.stringify(results) + '}';
+      const obj = JSON.parse(jsonStr);
+      res.send(obj).end();
     });
   })
 
