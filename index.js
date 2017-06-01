@@ -37,7 +37,7 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     //const start = new Date("2017-05-23T19:12:30.414Z");
-    collection.find({date: {$gt: "2017-05-18T19:12:30.414Z", $lt: "2017-05-26T19:12:30.414Z"}}).toArray((e, results) =>{
+    collection.find({date: {$gt: "2017-05-26T19:12:30.414Z", $lt: "2017-06-01T19:12:30.414Z"}}).sort({"date": -1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
@@ -91,9 +91,10 @@ app.post('/volunteers', function(req, res){
         return;
       }
       console.log(`Inserted successfully ${results.title}`);
+      res.send(results);
     });
   })
-  res.send('Post volunteers was sent');
+  //res.send('Post volunteers was sent');
 });
 
 app.listen(port);
