@@ -123,7 +123,6 @@ app.post('/users', function(req, res){
       res.send(jsonStr).end();
     });
   })
-  //res.send('Post volunteers was sent');
 });
 
 app.listen(port);
