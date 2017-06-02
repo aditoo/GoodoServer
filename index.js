@@ -97,4 +97,33 @@ app.post('/volunteers', function(req, res){
   //res.send('Post volunteers was sent');
 });
 
+// create a new user
+app.post('/users', function(req, res){
+  const userName = req.query.userName;
+  const phoneNumber = req.query.phoneNumber;
+  const createdOn = new Date();
+  const toInsert = {
+    "userName": userName,
+    "phoneNumber" : phoneNumber
+  };
+
+  MongoClient.connect(MONGO_URL, (err, db) =>{
+    if(err){
+      console.error(err);
+      return;
+    }
+    const collection = db.collection('users');
+    collection.insertOne(toInsert, (e ,results) => {
+      db.close();
+      if (e) {
+        console.error(e);
+        return;
+      }
+      const jsonStr = `{ "id" :  ${results.insertedId} }`;
+      res.send(jsonStr).end();
+    });
+  })
+  //res.send('Post volunteers was sent');
+});
+
 app.listen(port);
