@@ -4,6 +4,7 @@ const MONGO_URL = "mongodb://goodoadmin:goodoadmin@ds151141.mlab.com:51141/goodo
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
+const ObjectID = require('mongodb').ObjectID;
 
 /*
 MongoClient.connect(MONGO_URL, (err, db) => {
@@ -37,7 +38,7 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     //const start = new Date("2017-05-23T19:12:30.414Z");
-    collection.find({date: {$gt: "2017-05-26T19:12:30.414Z", $lt: "2017-06-01T19:12:30.414Z"}}).sort({"date": -1}).toArray((e, results) =>{
+    collection.find({date: {$gt: "2017-06-04 19:12" }}).sort({"date": -1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
@@ -65,6 +66,7 @@ app.post('/volunteers', function(req, res){
   const description = req.query.description;
   const imgName = req.query.imgName;
   const lastupdate = new Date();
+  const vols = {};
   const toInsert = {
     "title": title,
     "minNumber" : minNumber,
@@ -75,6 +77,7 @@ app.post('/volunteers', function(req, res){
     "duration" : duration,
     "imgName" : imgName,
     "description" : description,
+    "vols" : vols,
     "lastupdate" : lastupdate
   };
 
@@ -90,8 +93,8 @@ app.post('/volunteers', function(req, res){
         console.error(e);
         return;
       }
-      console.log(`Inserted successfully ${results.title}`);
-      res.send(results);
+      const jsonStr = `{ "id" :  ${results.insertedId} }`;
+      res.send(jsonStr).end();
     });
   })
   //res.send('Post volunteers was sent');
@@ -121,6 +124,27 @@ app.post('/users', function(req, res){
       }
       const jsonStr = `{ "id" :  ${results.insertedId} }`;
       res.send(jsonStr).end();
+    });
+  })
+});
+
+// add user to a volunteer
+app.put('/volunteers', function(req, res){
+  const o_id = new ObjectID(req.query.id);
+  console.log(o_id);
+  MongoClient.connect(MONGO_URL, (err, db) =>{
+    if(err){
+      console.error(err);
+      return;
+    }
+    const collection = db.collection('volunteers');
+    collection.update({'_id' : o_id}, {$inc: {'currentNum' : 1}}, (e , results) =>{
+      db.close();
+      if(e){
+        console.error(e);
+        return;
+      }
+      res.send(results).end();
     });
   })
 });
