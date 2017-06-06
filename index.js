@@ -38,7 +38,7 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     //const start = new Date("2017-05-23T19:12:30.414Z");
-    collection.find({date: {$gt: "2017-05-04 19:12" }}).sort({"date": -1}).toArray((e, results) =>{
+    collection.find({date: {$gt: "2017-05-04 19:12" }}).sort({"date": 1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
