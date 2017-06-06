@@ -39,7 +39,6 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     const currentTime = moment().utc().add('h', 3);
-    console.log(moment().format());
     collection.find({date: {$gt: moment().format() }}).sort({"date": 1}).toArray((e, results) =>{
       db.close();
       if(e){

@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/aditoo/GoodoServer#readme",
   "dependencies": {
+    "JSON": "^1.0.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.2",
     "json": "^9.0.6",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.27",
     "mongoose": "^4.10.2",
     "pug": "^2.0.0-rc.1"
