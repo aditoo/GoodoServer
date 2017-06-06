@@ -2,6 +2,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const MONGO_URL = "mongodb://goodoadmin:goodoadmin@ds151141.mlab.com:51141/goodo";
 const express = require("express");
+const moment = require('moment');
 const app = express();
 const port = process.env.PORT || 8080;
 const ObjectID = require('mongodb').ObjectID;
@@ -37,8 +38,9 @@ app.get('/volunteers' , function(req ,res){
       return;
     }
     const collection = db.collection('volunteers');
-    //const start = new Date("2017-05-23T19:12:30.414Z");
-    collection.find({date: {$gt: "2017-05-04 19:12" }}).sort({"date": 1}).toArray((e, results) =>{
+    const currentTime = moment().utc().add('h', 3);
+    console.log(moment().format());
+    collection.find({date: {$gt: moment().format() }}).sort({"date": 1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
