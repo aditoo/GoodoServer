@@ -39,7 +39,7 @@ app.get('/volunteers' , function(req ,res){
     }
     const collection = db.collection('volunteers');
     //const currentTime = moment().utc().add('h', 3);
-    collection.find({date: {$gt: "2017-06-04 19:12" }}).sort({"date": 1}).toArray((e, results) =>{
+    collection.find({date: {$gt: "2017-06-07 00:00" }}).sort({"date": 1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
