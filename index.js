@@ -38,8 +38,9 @@ app.get('/volunteers' , function(req ,res){
       return;
     }
     const collection = db.collection('volunteers');
-    //const currentTime = moment().utc().add('h', 3);
-    collection.find({date: {$gt: "2017-06-07 00:00" }}).sort({"date": 1}).toArray((e, results) =>{
+    const currentTime = moment().utc().add('h', 3);
+    console.log()
+    collection.find({date: {$gt: "2017-05-04 19:12" }}).sort({"date": 1}).toArray((e, results) =>{
       db.close();
       if(e){
         console.error(e);
@@ -67,7 +68,8 @@ app.post('/volunteers', function(req, res){
   const description = req.query.description;
   const imgName = req.query.imgName;
   const lastupdate = new Date();
-  const vols = {};
+  const vols = [];
+  const creator = req.query.creator;
   const toInsert = {
     "title": title,
     "minNumber" : minNumber,
@@ -79,7 +81,8 @@ app.post('/volunteers', function(req, res){
     "imgName" : imgName,
     "description" : description,
     "vols" : vols,
-    "lastupdate" : lastupdate
+    "lastupdate" : lastupdate,
+    "creator" : creator
   };
 
   MongoClient.connect(MONGO_URL, (err, db) =>{
@@ -129,23 +132,26 @@ app.post('/users', function(req, res){
   })
 });
 
-// add user to a volunteer
+// add user to vol
 app.put('/volunteers', function(req, res){
-  const o_id = new ObjectID(req.query.id);
-  console.log(o_id);
+  const vol_id = new ObjectID(req.query.vol);
+  const user_id = req.query.user;
+  console.log(vol_id);
+  console.log(user_id);
   MongoClient.connect(MONGO_URL, (err, db) =>{
     if(err){
       console.error(err);
       return;
     }
     const collection = db.collection('volunteers');
-    collection.update({'_id' : o_id}, {$inc: {'currentNum' : 1}}, (e , results) =>{
+    collection.update({'_id' : vol_id, 'vols' : {$nin : [user_id]}}, {$inc: {'currentNum' : 1}, $addToSet : {'vols' : user_id}}, (e , results) =>{
       db.close();
       if(e){
         console.error(e);
         return;
       }
       res.send(results).end();
+      console.log(`{ "modified" :  ${res.nModified} }`);
     });
   })
 });
