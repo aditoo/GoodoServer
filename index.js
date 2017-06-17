@@ -153,4 +153,27 @@ app.put('/volunteers', function(req, res){
   })
 });
 
+// remove user from vol
+app.delete('/volunteers', function(req, res){
+  const vol_id = new ObjectID(req.query.vol);
+  const user_id = req.query.user;
+  console.log(vol_id);
+  console.log(user_id);
+  MongoClient.connect(MONGO_URL, (err, db) =>{
+    if(err){
+      console.error(err);
+      return;
+    }
+    const collection = db.collection('volunteers');
+    collection.update({'_id' : vol_id, 'vols' : {$in : [user_id]}}, {$inc: {'currentNum' : 1}, $pull : {'vols' : user_id}}, (e , results) =>{
+      db.close();
+      if(e){
+        console.error(e);
+        return;
+      }
+      res.send(results).end();
+      console.log(`{ "modified" :  ${res.nModified} }`);
+    });
+  })
+});
 app.listen(port);
