@@ -165,7 +165,7 @@ app.delete('/volunteers', function(req, res){
       return;
     }
     const collection = db.collection('volunteers');
-    collection.update({'_id' : vol_id, 'vols' : {$in : [user_id]}}, {$inc: {'currentNum' : 1}, $pull : {'vols' : user_id}}, (e , results) =>{
+    collection.update({'_id' : vol_id, 'vols' : {$in : [user_id]}}, {$inc: {'currentNum' : -1}, $pull : {'vols' : user_id}}, (e , results) =>{
       db.close();
       if(e){
         console.error(e);
