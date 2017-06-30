@@ -61,7 +61,7 @@ app.post('/volunteers', function(req, res){
   const currentNum = parseInt(req.query.currentNum);
   const address = req.query.address;
   const date = req.query.date;
-  const duration = req.query.duration;
+  const duration = parseInt(req.query.duration);
   const description = req.query.description;
   const imgName = req.query.imgName;
   const lastupdate = new Date();
